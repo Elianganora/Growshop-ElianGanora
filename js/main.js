@@ -45,38 +45,35 @@ const contadorCarrito = document.querySelector("#contadorCarrito");
 const precioTotal = document.querySelector("#precioTotal");
 const buscador = document.querySelector("#search");
 
-cargarStock();
+mostrarProducto(stockProductos);
 
-function cargarStock() {
-  fetch('stock1.json')
-    .then(resp => resp.json())
-    .then(stock1 => {
-      stock1.forEach(stock1 => {
-        let div = document.createElement('div');
-        div.classList.add('product');
+// funcion para identificar y mostrar los productos
 
-        div.innerHTML = `
-        <img src=${stock1.img} alt=""
-          class="product__img">
-        <div class="product__description">
-          <h3 class="product__title">${stock1.nombre}</h3>
-          <span class="product__price">$${stock1.precio}</span>
-        </div>
-        <i class="product__icon"><a class="fa-solid fa-cart-plus" id="agregar${stock1.id}"> </a>
-      </div> `
+function mostrarProducto(array){
+  array.forEach(item => {
+    let div = document.createElement('div');
+    div.classList.add('product');
 
-        contenedorProductos.appendChild(div);
+    div.innerHTML = `
+    <img src=${item.img} alt=""
+      class="product__img">
+    <div class="product__description">
+      <h3 class="product__title">${item.nombre}</h3>
+      <span class="product__price">$${item.precio}</span>
+    </div>
+    <i class="product__icon"><a class="fa-solid fa-cart-plus" id="agregar${item.id}"> </a>
+  </div> `
 
-        let btnAgregar = document.getElementById(`agregar${stock1.id}`);
+  contenedorProductos.appendChild(div);
 
-
-        btnAgregar.addEventListener("click", () => {
-          agregarAlCarrito(stock1.id);
-        })
-      }
-      )
-    })
-}
+  let btnAgregar = document.getElementById(`agregar${item.id}`);
+  
+ 
+   btnAgregar.addEventListener("click",() =>{
+    agregarAlCarrito(item.id);
+   })
+  }
+)}
 
 // funcion para agregar al carrito
 
